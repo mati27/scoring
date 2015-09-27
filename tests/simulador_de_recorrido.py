@@ -4,7 +4,7 @@ from geolocalizacion.satelite import SimuladorDeRecorrido, RecorridoEnArchivo, R
 
 class SimuladorDeRecorridoTestCase(TestCase):
     def test_simular_recorrido_usando_estrategia_de_recorrido_en_archivo(self):
-        archivo_de_recorrido = 'recorrido_de_prueba'
+        archivo_de_recorrido = 'tests/recorrido_de_prueba'
 
         simulador = SimuladorDeRecorrido.simular_usando(estrategia=RecorridoEnArchivo.usando(archivo_de_recorrido))
 
