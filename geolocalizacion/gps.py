@@ -1,13 +1,15 @@
+import time
 from datetime import datetime
 
 
 class GPS(object):
     @classmethod
-    def nuevo(cls, satelite):
-        return cls(satelite=satelite)
+    def nuevo(cls, satelite, actualizar_cada):
+        return cls(satelite=satelite, actualizar_cada=actualizar_cada)
 
-    def __init__(self, satelite):
+    def __init__(self, satelite, actualizar_cada):
         self.satelite = satelite
+        self.actualizar_cada = actualizar_cada
         self.observadores = []
 
     def agregar_observador(self, observador):
@@ -24,7 +26,7 @@ class GPS(object):
 
         self._notificar_observadores_con(nuevo_intervalo=intervalo)
 
-        self._obtener_ubicacion_actual_mientras_haya_respuesta()
+        self._esperar_proxima_respuesta()
 
     def procesar_respuesta_vacia(self, respuesta):
         pass
@@ -37,6 +39,11 @@ class GPS(object):
     def _notificar_observadores_con(self, nuevo_intervalo):
         for observador in self.observadores:
             observador.ubicacion_obtenida(nuevo_intervalo)
+
+    def _esperar_proxima_respuesta(self):
+        time.sleep(self.actualizar_cada.total_seconds())
+
+        self._obtener_ubicacion_actual_mientras_haya_respuesta()
 
 
 class Intervalo(object):
