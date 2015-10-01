@@ -23,7 +23,7 @@ class DetectorDeZonaPeligrosaTestCase(TestCase):
 
         zona_peligrosa = ZonaGeografica.definida_por((-35.551212, -58.463000), (-35.551882, -58.462591))
         DetectorDeViajeAZonaPeligrosa.nuevo_con(gps=gps, zonas_peligrosas=[zona_peligrosa],
-                                          estrategia_de_reporte_de_eventos=self)
+                                                estrategia_de_reporte_de_eventos=self)
 
         gps.activar()
 
@@ -34,7 +34,7 @@ class DetectorDeZonaPeligrosaTestCase(TestCase):
 
         zona_peligrosa = ZonaGeografica.definida_por((34, 58), (38, 60))
         DetectorDeViajeAZonaPeligrosa.nuevo_con(gps=gps, zonas_peligrosas=[zona_peligrosa],
-                                          estrategia_de_reporte_de_eventos=self)
+                                                estrategia_de_reporte_de_eventos=self)
 
         gps.activar()
 
@@ -46,7 +46,7 @@ class DetectorDeZonaPeligrosaTestCase(TestCase):
 
         zona_peligrosa = ZonaGeografica.definida_por((34, 58), (38, 60))
         DetectorDeViajeAZonaPeligrosa.nuevo_con(gps=gps, zonas_peligrosas=[zona_peligrosa],
-                                          estrategia_de_reporte_de_eventos=self)
+                                                estrategia_de_reporte_de_eventos=self)
 
         gps.activar()
 
@@ -58,24 +58,22 @@ class DetectorDeZonaPeligrosaTestCase(TestCase):
 
         zona_peligrosa = ZonaGeografica.definida_por((34, 58), (38, 60))
         DetectorDeViajeAZonaPeligrosa.nuevo_con(gps=gps, zonas_peligrosas=[zona_peligrosa],
-                                          estrategia_de_reporte_de_eventos=self)
+                                                estrategia_de_reporte_de_eventos=self)
 
         gps.activar()
 
         self.assertEquals(len(self.eventos_registrados), 1)
         self.assertEquals(self.eventos_registrados[0].zona(), zona_peligrosa)
 
-    def test_se_reporta_dos_eventos_si_el_recorrido_pasa_por_una_zona_peligrosa_sale_y_vuelve_a_ingresar(self):
+    def test_se_reportan_dos_eventos_si_el_recorrido_pasa_por_una_zona_peligrosa_sale_y_vuelve_a_ingresar(self):
         gps = self.un_gps_que_notifique_el_recorrido([(34, 57), (34, 59), (35, 59), (35, 61), (36, 60)])
 
         zona_peligrosa = ZonaGeografica.definida_por((34, 58), (38, 60))
         DetectorDeViajeAZonaPeligrosa.nuevo_con(gps=gps, zonas_peligrosas=[zona_peligrosa],
-                                          estrategia_de_reporte_de_eventos=self)
+                                                estrategia_de_reporte_de_eventos=self)
 
         gps.activar()
 
         self.assertEquals(len(self.eventos_registrados), 2)
         self.assertEquals(self.eventos_registrados[0].zona(), zona_peligrosa)
         self.assertEquals(self.eventos_registrados[1].zona(), zona_peligrosa)
-
-
