@@ -1,5 +1,6 @@
 __author__ = 'bernapanarello'
 #http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3019610/
+#http://nujournal.net/HighAccuracySpeed.pdf
 #Calculo de velocidad
 
 class DetectorPorFrenadaBrusca:
@@ -8,5 +9,7 @@ class DetectorPorFrenadaBrusca:
         self.velocidad_parada = velocidad_parada
 
     def ubicacion_obtenida(self, intervalo):
+        pass
+
 
 
