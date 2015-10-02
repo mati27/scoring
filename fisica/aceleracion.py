@@ -11,4 +11,10 @@ class Aceleracion(UnidadFisica):
     def a_ms2(self):
         return self.magnitud
 
+    @classmethod
+    def desde_gs(cls, gs):
+        return cls(gs * 9.8)
 
+    @classmethod
+    def desde_ms2(cls, ms2):
+        return cls(ms2)

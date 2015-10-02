@@ -39,33 +39,40 @@ class DetectorDeFrenadaBrusca:
     def actualizar_velocidades(self):
         if self._intervalo_anterior is not None:
             nuevaVelocidad = CalculadorVelocidad().obtener_velocidad_por_intervalos(self._intervalo_anterior,self._intervalo_actual )
-            self.velocidad_anterior = self._velocidad_actual
+            self._velocidad_anterior = self._velocidad_actual
             self._velocidad_actual = nuevaVelocidad
+            print ("Velocidad actual ", self._velocidad_actual.a_kilometros_por_hora())
 
     def actualizar_aceleracion(self):
-        if self.velocidad_anterior is not None:
-          self._aceleracion = CalculadorAceleracion().obtener_aceleracion_por_delta_velocidad(self.velocidad_anterior,
-                                                                                             self._intervalo_anterior.timestamp,
+        if self._velocidad_anterior is not None:
+          self._aceleracion = CalculadorAceleracion().obtener_aceleracion_por_delta_velocidad(self._velocidad_anterior,
+                                                                                             self._intervalo_anterior.timestamp(),
                                                                                              self._velocidad_actual,
 
 
-                                                                                             self._intervalo_actual.timestamp)
+                                                                                             self._intervalo_actual.timestamp())
+          print (self._aceleracion.a_gs())
 
     def verificar_aceleracion(self):
-        if self._aceleracion < self._limite_aceleracion:
-            self._estado_aceleracion.en_aceleracion_brusca()
-            self._estado_aceleracion = EnAceleracionBrusca.para(self)
-        else:
-            self._estado_aceleracion.en_aceleracion_normal()
-            self._estado_aceleracion = EnAceleracionNormal.para(self)
+        if self._aceleracion is not None:
+            if self._aceleracion < self._limite_aceleracion:
+                self._estado_aceleracion.en_aceleracion_brusca()
+            else:
+                self._estado_aceleracion.en_aceleracion_normal()
 
 
     def reportar_nuevo_evento_de_frenada_brusca(self):
         evento = EventoDeFrenadaBrusca.nuevo()
         self._estrategia_de_reporte_de_eventos.reportar_evento(evento)
 
+    def set_estado_aceleracion_normal(self):
+            self._estado_aceleracion = EnAceleracionNormal.para(self)
 
-class EstadoDeDeteccion(object):
+    def set_estado_aceleracion_brusca(self):
+            self._estado_aceleracion = EnAceleracionBrusca.para(self)
+
+
+class EstadoDeAceleracion(object):
     @classmethod
     def para(cls, detector):
         return cls(detector=detector)
@@ -80,20 +87,21 @@ class EstadoDeDeteccion(object):
         raise NotImplementedError('responsabilidad de la subclase')
 
 
-class EnAceleracionNormal(EstadoDeDeteccion):
+class EnAceleracionNormal(EstadoDeAceleracion):
     def en_aceleracion_brusca(self):
         self.detector.reportar_nuevo_evento_de_frenada_brusca()
+        self.detector.set_estado_aceleracion_brusca()
 
     def en_aceleracion_normal(self):
         pass
 
 
-class EnAceleracionBrusca(EstadoDeDeteccion):
+class EnAceleracionBrusca(EstadoDeAceleracion):
     def en_aceleracion_brusca(self):
         pass
 
     def en_aceleracion_normal(self):
-        pass
+        self.detector.set_estado_aceleracion_normal()
 
 
 

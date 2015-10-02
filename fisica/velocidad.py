@@ -1,3 +1,5 @@
+from fisica.unidad_fisica import UnidadFisica
+
 __author__ = 'bernapanarello'
 class Velocidad(UnidadFisica):
     def __init__(self, magnitud):

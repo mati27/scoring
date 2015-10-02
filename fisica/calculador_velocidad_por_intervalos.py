@@ -6,7 +6,8 @@ __author__ = 'bernapanarello'
 
 class CalculadorVelocidad:
     def obtener_velocidad_por_intervalos(self, intervalo_inicial, intervalo_final):
-        distancia = CalculadorDistanciasPorCoordenadas().calculador.calcular_distancia(intervalo_inicial.coordenadas,
-                                                                                       intervalo_final.coordenadas)
-        return Velocidad(distancia.meters / (intervalo_final.timestamp - intervalo_inicial.timestamp).seconds)
+        distancia = CalculadorDistanciasPorCoordenadas().obtener_distancia(intervalo_inicial.coordenadas(),
+                                                                                       intervalo_final.coordenadas())
+
+        return Velocidad(distancia.meters / (intervalo_final.timestamp() - intervalo_inicial.timestamp()).seconds)
 
