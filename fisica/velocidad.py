@@ -2,6 +2,12 @@ from fisica.unidad_fisica import UnidadFisica
 
 __author__ = 'bernapanarello'
 class Velocidad(UnidadFisica):
+    @classmethod
+    def nueva_con_km_por_h(cls, magnitud):
+        magnitud_m_por_s = (magnitud * 1000) / 3600
+        return cls(magnitud_m_por_s)
+
+
     def __init__(self, magnitud):
         self.magnitud = magnitud
 

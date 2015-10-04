@@ -34,7 +34,7 @@ class DetectorDeViajeAZonaPeligrosa(object):
         self._estado = estado.para(detector=self)
 
 
-class EstadoDeDeteccion(object):
+class EstadoDeUbicacion(object):
     @classmethod
     def para(cls, detector):
         return cls(detector=detector)
@@ -49,7 +49,7 @@ class EstadoDeDeteccion(object):
         raise NotImplementedError('responsabilidad de la subclase')
 
 
-class FueraDeZonaPeligrosa(EstadoDeDeteccion):
+class FueraDeZonaPeligrosa(EstadoDeUbicacion):
     def se_encuentra_en(self, zona_peligrosa):
         self.detector.reportar_nuevo_evento_de_viaje_a(zona_peligrosa=zona_peligrosa)
         self.detector.cambiar_a_estado(EnZonaPeligrosa)
@@ -58,7 +58,7 @@ class FueraDeZonaPeligrosa(EstadoDeDeteccion):
         pass
 
 
-class EnZonaPeligrosa(EstadoDeDeteccion):
+class EnZonaPeligrosa(EstadoDeUbicacion):
     def se_encuentra_en(self, zona_peligrosa):
         pass
 
