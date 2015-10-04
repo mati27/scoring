@@ -8,3 +8,6 @@ class EventoDeFrenadaBrusca(Evento):
 
     def __init__(self):
         super(EventoDeFrenadaBrusca, self).__init__()
+
+    def tipo(self):
+        return 'FrenadaBrusca'

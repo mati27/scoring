@@ -13,3 +13,6 @@ class EventoDeViajeAZonaPeligrosa(Evento):
 
     def zona(self):
         return self._zona
+
+    def tipo(self):
+        return 'ViajeZonaPeligrosa'

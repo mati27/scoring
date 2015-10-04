@@ -36,3 +36,6 @@ class DetectorDeFrenadaBruscaTestCase(TestCase):
         gps.activar()
 
         self.assertEquals(len(self.eventos_registrados), 1)
+
+    def tipo(self):
+        return 'FrenadaBrusca'

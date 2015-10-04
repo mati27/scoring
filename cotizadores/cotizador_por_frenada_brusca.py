@@ -1,10 +1,9 @@
 from cotizadores.base import CotizadorBase
-from eventos.frenada_brusca import EventoDeFrenadaBrusca
 
 
 class CotizadorPorFrenadaBrusca(CotizadorBase):
     def acepta_evento(self, evento):
-        return evento.tipo == 'FrenadaBrusca'
+        return evento.tipo() == 'FrenadaBrusca'
 
     def obtener_cotizacion_evento(self, evento):
         if not self.acepta_evento(evento):

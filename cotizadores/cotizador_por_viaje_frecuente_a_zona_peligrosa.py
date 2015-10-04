@@ -3,7 +3,7 @@ from cotizadores.base import CotizadorBase
 
 class CotizadorPorViajeFrecuenteAZonaPeligrosa(CotizadorBase):
     def acepta_evento(self, evento):
-        return evento.tipo == 'ViajeZonaPeligrosa'
+        return evento.tipo() == 'ViajeZonaPeligrosa'
 
     def obtener_cotizacion_evento(self, evento):
         if not self.acepta_evento(evento):

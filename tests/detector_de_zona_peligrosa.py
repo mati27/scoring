@@ -77,3 +77,6 @@ class DetectorDeZonaPeligrosaTestCase(TestCase):
         self.assertEquals(len(self.eventos_registrados), 2)
         self.assertEquals(self.eventos_registrados[0].zona(), zona_peligrosa)
         self.assertEquals(self.eventos_registrados[1].zona(), zona_peligrosa)
+
+    def tipo(self):
+        return 'ZonaPeligrosa'
