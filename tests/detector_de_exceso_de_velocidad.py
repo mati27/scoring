@@ -21,7 +21,6 @@ class DetectorDeExcesoDeVelocidadTestCase(TestCase):
         return GPS.nuevo(satelite=satelite, actualizar_cada=timedelta(seconds=1))
 
 
-
     def test_no_se_reportan_eventos_cuando_no_se_excede_la_velocidad_maxima(self):
 
         recorrido =  [
@@ -112,4 +111,32 @@ class DetectorDeExcesoDeVelocidadTestCase(TestCase):
 
 
 
+    def test_no_se_encuentra_velocidad_maxima_para_alguna_coordenada(self):
+        try:
+            recorrido =  [
+                        (-34.551882, -58.463000),
+                        (-34.551882, -58.463500),
+                        (-34.551882, -58.464000),
+                        (-34.551882, -58.464100),
+                        (-34.551882, -58.464200),
+                        (-34.551882, -58.464300),
+                        (-34.551882, -58.464400),
+                        ]
+
+            gps = self.un_gps_que_notifique_el_recorrido(recorrido)
+            zona_geografica = ZonaGeografica.definida_por((-34.551000, -58.464000), (-34.553882, -58.762591))
+            catalogo_de_velocidades_maximas = dict()
+
+
+            catalogo_de_velocidades_maximas[zona_geografica] = Velocidad(26)
+            proveedor_velocidad_maxima = ProveedorVelocidadMaxima.nuevo(catalogo_de_velocidades_maximas=catalogo_de_velocidades_maximas)
+
+            DetectorDeExcesoDeVelocidad.nuevo_con(gps=gps,proveedor_velocidad_maxima=proveedor_velocidad_maxima ,
+                                                    estrategia_de_reporte_de_eventos=self, porcentaje_de_velocidad_maxima= 10, distancia_excedido=100)
+
+            gps.activar()
+            self.assertEquals(len(self.eventos_registrados), 0)
+
+        except RuntimeError, e:
+            print e
 

@@ -10,11 +10,9 @@ class ProveedorVelocidadMaxima(object):
         self._catalogo_de_velocidades_maximas = catalogo_de_velocidades_maximas
 
     def velocidad_maxima(self, coordenadas):
-        velocidad_maxima = Velocidad(100)
 
         for zona,velocidad_maxima_zona in self._catalogo_de_velocidades_maximas.items():
             if zona.esta_dentro(coordenadas):
-                velocidad_maxima =  velocidad_maxima_zona
+                return velocidad_maxima_zona
 
-
-        return velocidad_maxima
+        raise RuntimeError('No existe velocidad maxima para las coordenadas', coordenadas)
