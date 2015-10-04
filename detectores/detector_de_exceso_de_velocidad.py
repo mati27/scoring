@@ -6,11 +6,11 @@ from fisica.velocidad import Velocidad
 
 class DetectorDeExcesoDeVelocidad(object):
     @classmethod
-    def nuevo_con(cls, gps, proveedor_velocidad_maxima, estrategia_de_reporte_de_eventos, porcentaje_de_velocidad, distancia_maxima_excedido):
+    def nuevo_con(cls, gps, proveedor_velocidad_maxima, estrategia_de_reporte_de_eventos, porcentaje_de_velocidad, distancia_excedido):
         return cls(gps=gps, proveedor_velocidad_maxima=proveedor_velocidad_maxima,
-                   estrategia_de_reporte_de_eventos=estrategia_de_reporte_de_eventos, porcentaje_de_velocidad= porcentaje_de_velocidad, distancia_maxima_excedido = distancia_maxima_excedido)
+                   estrategia_de_reporte_de_eventos=estrategia_de_reporte_de_eventos, porcentaje_de_velocidad= porcentaje_de_velocidad, distancia_excedido = distancia_excedido)
 
-    def __init__(self, gps, proveedor_velocidad_maxima, estrategia_de_reporte_de_eventos, porcentaje_de_velocidad, distancia_maxima_excedido):
+    def __init__(self, gps, proveedor_velocidad_maxima, estrategia_de_reporte_de_eventos, porcentaje_de_velocidad, distancia_excedido):
         self._gps = gps
         self._proveedor_velocidad_maxima = proveedor_velocidad_maxima
         self._estrategia_de_reporte_de_eventos = estrategia_de_reporte_de_eventos
@@ -18,7 +18,7 @@ class DetectorDeExcesoDeVelocidad(object):
         self._intervalo_actual = None
         self._intervalo_anterior = None
         self._porcentaje_de_velocidad = porcentaje_de_velocidad
-        self._distancia_maxima_excedido = distancia_maxima_excedido
+        self._distancia_excedido = distancia_excedido
 
         self._gps.agregar_observador(self)
 
@@ -53,8 +53,8 @@ class DetectorDeExcesoDeVelocidad(object):
     def estado(self):
         return self._estado
 
-    def distancia_maxima_excedido(self):
-        return self._distancia_maxima_excedido
+    def distancia_excedido(self):
+        return self._distancia_excedido
 
     def porcentaje_de_velocidad(self):
         return self._porcentaje_de_velocidad
@@ -79,10 +79,15 @@ class EnVelocidadExcedida(EstadoDeDeteccion):
         distancia = CalculadorDistanciasPorCoordenadas().obtener_distancia(intervalo1.coordenadas(),intervalo2.coordenadas())
         self.distancia_excedido = self.distancia_excedido + distancia.meters
 
-        if(self.distancia_excedido > (self.detector).distancia_maxima_excedido()):
+        if(self.distancia_excedido > (self.detector).distancia_excedido()):
             velocidad_excedido = CalculadorVelocidad().obtener_velocidad_por_intervalos(intervalo1,intervalo2 )
             self.detector.reportar_nuevo_evento_de_exceso_de_velocidad(self.detector.porcentaje_de_velocidad, velocidad_excedido)
-            self.detector.cambiar_a_estado(EnVelocidadNoExcedida)
+
+            distancia_que_sigue_excedido = (self.distancia_excedido) - ((self.detector).distancia_excedido())
+            if (distancia_que_sigue_excedido > 0):
+                self.distancia_excedido = distancia_que_sigue_excedido
+            else:
+                self.detector.cambiar_a_estado(EnVelocidadNoExcedida)
 
 
 class EnVelocidadNoExcedida(EstadoDeDeteccion):

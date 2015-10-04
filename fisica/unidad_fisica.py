@@ -9,3 +9,7 @@ class UnidadFisica:
 
     def __eq__(self, other):
         return self.magnitud == other.magnitud
+
+    def __add__(self, other):
+       self.magnitud + other.magnitud
+       return self
