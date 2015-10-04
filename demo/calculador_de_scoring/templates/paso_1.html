@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Detección de Eventos</h4>
+        </div>
+        <div class="panel-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_recorrido">{{ formulario_de_deteccion_de_eventos.recorrido.label }}</label>
+                    {{ formulario_de_deteccion_de_eventos.recorrido }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_asegurado">{{ formulario_de_deteccion_de_eventos.asegurado.label }}</label><br>
+                    {{ formulario_de_deteccion_de_eventos.asegurado }}
+                </div>
+                <button type="submit" class="btn btn-primary">Detectar</button>
+            </form>
+        </div>
+    </div>
+
+    <h4>Detectores configurados</h4>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Tipo de detector</th>
+            <th>Parámetros</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for fila in tabla_de_detectores.filas %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ fila.nombre }}</td>
+                <td>{{ fila.parametros|safe }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

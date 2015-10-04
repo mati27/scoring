@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+    <div class="alert alert-success" role="alert">
+        {% with cantidad_eventos=tabla_de_eventos.filas|length %}
+            <strong>{{ cantidad_eventos }} evento{{ cantidad_eventos|pluralize }}
+                detectado{{ cantidad_eventos|pluralize }}</strong>
+        {% endwith %}
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Scoring</h4>
+        </div>
+        <div class="panel-body">
+            <strong>Puntaje: 80</strong>
+        </div>
+    </div>
+
+    <h4>Eventos detectados</h4>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Evento</th>
+            <th>Descripción</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for fila in tabla_de_eventos.filas %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ fila.nombre }}</td>
+                <td>{{ fila.descripcion }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'deteccion' %}">
+        <button type="button" class="btn btn-default">Volver</button>
+    </a>
+{% endblock %}
