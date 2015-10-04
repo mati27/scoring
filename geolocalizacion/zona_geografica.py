@@ -14,3 +14,9 @@ class ZonaGeografica(object):
 
     def esta_dentro(self, coordenada):
         return self.izquierda <= coordenada[0] <= self.derecha and self.abajo <= coordenada[1] <= self.arriba
+
+    def vertice_superior(self):
+        return self.izquierda, self.arriba
+
+    def vertice_inferior(self):
+        return self.derecha, self.abajo
