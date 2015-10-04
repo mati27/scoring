@@ -17,3 +17,6 @@ class EventoDeExcesoDeVelocidad(Evento):
 
     def velocidad_excedido(self):
         return self._velocidad_excedido
+
+    def tipo(self):
+        return 'ExcesoDeVelocidad'
