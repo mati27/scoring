@@ -24,7 +24,6 @@ class DetectorDeFrenadaBrusca:
         self._estado_aceleracion = EnAceleracionNormal.para(self)
         self._gps.agregar_observador(self)
 
-
     def ubicacion_obtenida(self, intervalo):
 
         self.actualizar_intervalos(intervalo)
@@ -60,15 +59,14 @@ class DetectorDeFrenadaBrusca:
             else:
                 self._estado_aceleracion.en_aceleracion_normal()
 
-
     def reportar_nuevo_evento_de_frenada_brusca(self):
         evento = EventoDeFrenadaBrusca.nuevo()
         self._estrategia_de_reporte_de_eventos.reportar_evento(evento)
 
-    def set_estado_aceleracion_normal(self):
+    def cambiar_a_estado_aceleracion_normal(self):
             self._estado_aceleracion = EnAceleracionNormal.para(self)
 
-    def set_estado_aceleracion_brusca(self):
+    def cambiar_a_estado_aceleracion_brusca(self):
             self._estado_aceleracion = EnAceleracionBrusca.para(self)
 
 
@@ -90,7 +88,7 @@ class EstadoDeAceleracion(object):
 class EnAceleracionNormal(EstadoDeAceleracion):
     def en_aceleracion_brusca(self):
         self.detector.reportar_nuevo_evento_de_frenada_brusca()
-        self.detector.set_estado_aceleracion_brusca()
+        self.detector.cambiar_a_estado_aceleracion_brusca()
 
     def en_aceleracion_normal(self):
         pass
@@ -101,7 +99,7 @@ class EnAceleracionBrusca(EstadoDeAceleracion):
         pass
 
     def en_aceleracion_normal(self):
-        self.detector.set_estado_aceleracion_normal()
+        self.detector.cambiar_a_estado_aceleracion_normal()
 
 
 

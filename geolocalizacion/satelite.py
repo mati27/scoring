@@ -1,4 +1,9 @@
-class SateliteMock(object):
+class Satelite(object):
+    def obtener_ubicacion_de(self, gps):
+        raise NotImplementedError('responsabilidad de la subclase')
+
+
+class SateliteMock(Satelite):
     @classmethod
     def usando(cls, simulador_de_recorrido):
         return cls(simulador_de_recorrido=simulador_de_recorrido)
