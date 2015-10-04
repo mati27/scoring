@@ -12,6 +12,6 @@ python -m unittest discover tests/ -p '*.py'
 3. Activar virtualenv con `workon scoring`
 4. Instalar dependencias con `pip install -r requirements.txt`
 5. Ir al directorio scoring/demo y correr las migraciones para crear las tablas con `python manage.py migrate`
-6. Ir a scoring/demo/calculador_de_scoring y copiar el un archivo configuracion_ejemplo.py a un archivo configuracion.py
+6. Ir a scoring/demo/calculador_de_scoring y copiar el archivo configuracion_ejemplo.py a un archivo configuracion.py en la misma carpeta
 7. En el directorio scoring/demo iniciar el servidor con `python manage.py runserver`
 8. Entrar a la app en http://localhost:8000

@@ -153,8 +153,8 @@ class FilaDeEventoDeZonaPeligrosa(FilaDeTablaDeEventos):
 
     def descripcion(self):
         zona = self._evento.zona()
-        return u'Se ingresó a la zona delimitada por %s, %s, %s y %s' % (
-            zona.arriba, zona.derecha, zona.abajo, zona.izquierda)
+        return u'Se ingresó a la zona delimitada por %s y %s' % (
+            str(zona.vertice_superior()), str(zona.vertice_inferior()))
 
 
 class FilaDeEventoDeFrenadaBrusca(FilaDeTablaDeEventos):
@@ -213,7 +213,15 @@ class FilaDetectorDeZonaPeligrosa(FilaDeTablaDetectores):
         return 'Detector de Viaje a Zona Peligrosa'
 
     def parametros(self):
-        return '<a href="#">Ver zonas peligrosas</a>'
+        zonas_peligrosas = u'Zonas peligrosas:\n'
+        zonas_peligrosas += u'<ul>'
+
+        for zona_peligrosa in self._configuracion_de_detector['parametros']['zonas_peligrosas']:
+            zonas_peligrosas += u'<li>Zona definida por %s y %s</li>' % (
+                str(zona_peligrosa.vertice_superior()), str(zona_peligrosa.vertice_inferior()))
+        zonas_peligrosas += u'</ul>'
+
+        return zonas_peligrosas
 
 
 class FilaDetectorDeFrenadaBrusca(FilaDeTablaDetectores):
@@ -225,5 +233,5 @@ class FilaDetectorDeFrenadaBrusca(FilaDeTablaDetectores):
         return 'Detector de Frenada Brusca'
 
     def parametros(self):
-        limite_de_aceleracion_en_ms2 = self._configuracion_de_detector['limite_aceleracion'].a_ms2()
+        limite_de_aceleracion_en_ms2 = self._configuracion_de_detector['parametros']['limite_aceleracion'].a_ms2()
         return u'Límite de aceleración: %s m/s2' % limite_de_aceleracion_en_ms2
