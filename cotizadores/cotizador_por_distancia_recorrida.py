@@ -10,7 +10,7 @@ class CotizadorPorDistanciaRecorrida(CotizadorBase):
         if not self.acepta_evento(evento):
             raise RuntimeError('Este cotizador no acepta el evento', evento)
 
-        self.incrementar_distancia_acumulada(evento.distancia)
+        self.incrementar_distancia_acumulada(evento.distancia())
 
         return self.obtener_penalizacion()
 
@@ -19,8 +19,11 @@ class CotizadorPorDistanciaRecorrida(CotizadorBase):
 
     def obtener_penalizacion(self):
         unidades_penalizables = int(self._distancia_acumulada / self._distancia_para_penalizacion)
+        distancia_penalizada = 0
         if unidades_penalizables > 0:
-            self._distancia_acumulada -= unidades_penalizables * self._distancia_para_penalizacion
+            distancia_penalizada = unidades_penalizables * self._distancia_para_penalizacion.kilometers
+            resto = self._distancia_acumulada.kilometers - distancia_penalizada
+            self._distancia_acumulada  = Distance (resto)
         return unidades_penalizables * self._penalizacion_por_unidad
 
     def __init__(self, penalizacion_por_unidad, distancia_para_penalizacion):
