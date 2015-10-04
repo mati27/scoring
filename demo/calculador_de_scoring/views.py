@@ -233,5 +233,5 @@ class FilaDetectorDeFrenadaBrusca(FilaDeTablaDetectores):
         return 'Detector de Frenada Brusca'
 
     def parametros(self):
-        limite_de_aceleracion_en_ms2 = self._configuracion_de_detector['limite_aceleracion'].a_ms2()
+        limite_de_aceleracion_en_ms2 = self._configuracion_de_detector['parametros']['limite_aceleracion'].a_ms2()
         return u'Límite de aceleración: %s m/s2' % limite_de_aceleracion_en_ms2
