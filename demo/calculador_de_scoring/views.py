@@ -153,10 +153,9 @@ class FilaDeTablaDeEventos(object):
 
 
 class FilaDeEventoDeZonaPeligrosa(FilaDeTablaDeEventos):
-    # TODO: cambiar cuando esté el mensaje de nombre
     @classmethod
     def acepta(cls, evento):
-        return evento.__class__.__name__ == 'EventoDeViajeAZonaPeligrosa'
+        return evento.tipo() == 'ViajeZonaPeligrosa'
 
     def nombre(self):
         return u'Evento de ingreso a zona peligrosa'
@@ -168,10 +167,9 @@ class FilaDeEventoDeZonaPeligrosa(FilaDeTablaDeEventos):
 
 
 class FilaDeEventoDeFrenadaBrusca(FilaDeTablaDeEventos):
-    # TODO: cambiar cuando esté el mensaje de nombre
     @classmethod
     def acepta(cls, evento):
-        return evento.__class__.__name__ == 'EventoDeFrenadaBrusca'
+        return evento.tipo() == 'FrenadaBrusca'
 
     def nombre(self):
         return u'Evento de frenada brusca'
@@ -246,6 +244,7 @@ class FilaDetectorDeFrenadaBrusca(FilaDeTablaDetectores):
         limite_de_aceleracion_en_ms2 = self._configuracion_de_detector['parametros']['limite_aceleracion'].a_ms2()
         return u'Límite de aceleración: %s m/s2' % limite_de_aceleracion_en_ms2
 
+
 class FilaDetectorDeViaje(FilaDeTablaDetectores):
     @classmethod
     def acepta(cls, configuracion_de_detector):
@@ -256,6 +255,7 @@ class FilaDetectorDeViaje(FilaDeTablaDetectores):
 
     def parametros(self):
         return u''
+
 
 class FilaDetectorDeExcesoDeVelocidad(FilaDeTablaDetectores):
     @classmethod
