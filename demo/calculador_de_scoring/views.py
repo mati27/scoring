@@ -35,6 +35,7 @@ class VistaPaso1(View):
         if formulario_de_deteccion_de_eventos.is_valid():
             deteccion = DeteccionDeEventos.nueva_con(**formulario_de_deteccion_de_eventos.cleaned_data)
 
+
             self.detectar_eventos(deteccion)
 
             return redirect('resultado', id_deteccion=deteccion.id)
@@ -46,12 +47,13 @@ class VistaPaso1(View):
         simulador_de_recorrido = SimuladorDeRecorrido.simular_usando(
             RecorridoEnArchivo.usando(archivo_de_recorrido=deteccion.recorrido.file.name))
 
-        gps = GPS.nuevo(satelite=SateliteMock.usando(simulador_de_recorrido), actualizar_cada=timedelta(microseconds=1))
+        gps = GPS.nuevo(satelite=SateliteMock.usando(simulador_de_recorrido), actualizar_cada=timedelta(seconds=1))
         historial_de_eventos = HistorialDeEventos.para(asegurado=deteccion.asegurado)
 
         self.crear_detectores(gps, historial_de_eventos)
 
         gps.activar()
+
 
         self.persistir_eventos_de(deteccion, historial_de_eventos)
 
@@ -81,6 +83,7 @@ class VistaPaso2(View):
         deteccion = get_object_or_404(DeteccionDeEventos, id=id_deteccion)
 
         eventos = self.obtener_eventos_de(deteccion)
+
         tabla_de_eventos = TablaDeEventos(eventos=eventos)
 
         scoreador = self.obtener_scoreador()
@@ -132,6 +135,7 @@ class TablaDeEventos(Tabla):
 class FilaDeTablaDeEventos(object):
     @classmethod
     def para(cls, evento):
+
         for subclase in cls.__subclasses__():
             if subclase.acepta(evento):
                 return subclase(evento)
@@ -173,6 +177,28 @@ class FilaDeEventoDeFrenadaBrusca(FilaDeTablaDeEventos):
 
     def nombre(self):
         return u'Evento de frenada brusca'
+
+    def descripcion(self):
+        return u''
+
+class FilaDeEventoDeExcesoDeVelocidad(FilaDeTablaDeEventos):
+    @classmethod
+    def acepta(cls, evento):
+        return evento.tipo() == 'ExcesoDeVelocidad'
+
+    def nombre(self):
+        return u'Evento de exceso de velocidad'
+
+    def descripcion(self):
+        return u''
+
+class FilaDeEventoDeViaje(FilaDeTablaDeEventos):
+    @classmethod
+    def acepta(cls, evento):
+        return evento.tipo() == 'Viaje'
+
+    def nombre(self):
+        return u'Evento de viaje'
 
     def descripcion(self):
         return u''
