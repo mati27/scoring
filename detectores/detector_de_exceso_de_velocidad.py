@@ -7,11 +7,11 @@ from fisica.velocidad import Velocidad
 
 class DetectorDeExcesoDeVelocidad(object):
     @classmethod
-    def nuevo_con(cls, gps, proveedor_velocidad_maxima, estrategia_de_reporte_de_eventos, porcentaje_de_velocidad_maxima, distancia_excedido):
-        return cls(gps=gps, proveedor_velocidad_maxima=proveedor_velocidad_maxima,
-                   estrategia_de_reporte_de_eventos=estrategia_de_reporte_de_eventos, porcentaje_de_velocidad_maxima= porcentaje_de_velocidad_maxima, distancia_excedido = distancia_excedido)
+    def nuevo_con(cls, gps, estrategia_de_reporte_de_eventos, proveedor_velocidad_maxima, porcentaje_de_velocidad_maxima, distancia_excedido):
+        return cls(gps=gps, estrategia_de_reporte_de_eventos=estrategia_de_reporte_de_eventos,
+                   proveedor_velocidad_maxima=proveedor_velocidad_maxima, porcentaje_de_velocidad_maxima= porcentaje_de_velocidad_maxima, distancia_excedido = distancia_excedido)
 
-    def __init__(self, gps, proveedor_velocidad_maxima, estrategia_de_reporte_de_eventos, porcentaje_de_velocidad_maxima, distancia_excedido):
+    def __init__(self, gps,estrategia_de_reporte_de_eventos, proveedor_velocidad_maxima,  porcentaje_de_velocidad_maxima, distancia_excedido):
         self._gps = gps
         self._proveedor_velocidad_maxima = proveedor_velocidad_maxima
         self._estrategia_de_reporte_de_eventos = estrategia_de_reporte_de_eventos
