@@ -20,10 +20,9 @@ zona_geografica = ZonaGeografica.definida_por((-34.551000, -58.462000), (-34.553
 catalogo_de_velocidades_maximas = dict()
 catalogo_de_velocidades_maximas[zona_geografica] =  Velocidad.nueva_con_km_por_h(magnitud = 145)
 
-PROVEEDOR_DE_VELOCIDAD_MAXIMA = [
-        ProveedorVelocidadMaxima.nuevo(catalogo_de_velocidades_maximas=catalogo_de_velocidades_maximas)
+PROVEEDOR_DE_VELOCIDAD_MAXIMA =ProveedorVelocidadMaxima.nuevo(catalogo_de_velocidades_maximas=catalogo_de_velocidades_maximas)
 
-]
+
 
 ASEGURADOS = [
     Asegurado.con(nombre='Carlos Perez')
@@ -39,7 +38,7 @@ CONFIGURACION_DE_DETECTORES = [
 
 CONFIGURACION_DE_COTIZADORES = [
     {'tipo': CotizadorPorFrenadaBrusca, 'parametros': {'penalizacion': 40}},
-    {'tipo': CotizadorPorRangoExcesoVelocidad, 'parametros': {'penalizacion': 40, 'cota_inferior': 30, 'cota_superior': 40}},
+    {'tipo': CotizadorPorRangoExcesoVelocidad, 'parametros': {'penalizacion': 40, 'cota_inferior': 9, 'cota_superior': 40}},
     {'tipo': CotizadorPorRangoExcesoVelocidad, 'parametros': {'penalizacion': 80, 'cota_inferior': 31, 'cota_superior': float("inf")}},
     {'tipo': CotizadorPorViajeFrecuenteAZonaPeligrosa, 'parametros': {'penalizacion': 40, 'cantidad_viajes_para_penalizacion': 1}},
     {'tipo': CotizadorPorDistanciaRecorrida, 'parametros': {'penalizacion_por_unidad': 10, 'distancia_para_penalizacion': Distance(2000)}},
