@@ -43,17 +43,16 @@ class DetectorDeViaje(object):
         return self._estado
 
 
-class EstadoDeDeteccion(object):
+class EstadoDeViaje(object):
     @classmethod
     def para(cls, detector):
         return cls(detector=detector)
 
-
-    def agregar_distancia_viaje(self, intervalo1,intervalo2):
+    def agregar_distancia_viaje(self, intervalo1, intervalo2):
         raise NotImplementedError('responsabilidad de la subclase')
 
 
-class EnViaje(EstadoDeDeteccion):
+class EnViaje(EstadoDeViaje):
 
     def __init__(self, detector):
         self.detector = detector
@@ -69,7 +68,7 @@ class EnViaje(EstadoDeDeteccion):
             self.detector.cambiar_a_estado(Detenido)
 
 
-class Detenido(EstadoDeDeteccion):
+class Detenido(EstadoDeViaje):
 
     def __init__(self, detector):
         self.detector = detector

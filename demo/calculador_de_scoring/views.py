@@ -60,7 +60,7 @@ class VistaPaso1(View):
 
         for configuracion_de_detector in CONFIGURACION_DE_DETECTORES:
             tipo_de_detector = configuracion_de_detector['tipo']
-            estrategia_de_reporte_de_eventos = RegistrarEnHistorialDeEventos(historial_de_eventos=historial_de_eventos)
+            estrategia_de_reporte_de_eventos = RegistrarEnHistorialDeEventos.nuevo_con(historial_de_eventos=historial_de_eventos)
 
             detector = tipo_de_detector.nuevo_con(gps=gps,
                                                   estrategia_de_reporte_de_eventos=estrategia_de_reporte_de_eventos,

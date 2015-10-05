@@ -15,6 +15,10 @@ class EstrategiaDeReporteDeEventos(object):
 
 
 class RegistrarEnHistorialDeEventos(EstrategiaDeReporteDeEventos):
+    @classmethod
+    def nuevo_con(cls, historial_de_eventos):
+        return cls(historial_de_eventos=historial_de_eventos)
+
     def __init__(self, historial_de_eventos):
         self._historial_de_eventos = historial_de_eventos
 
