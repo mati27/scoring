@@ -3,7 +3,8 @@ from cotizadores.base import CotizadorBase
 
 class CotizadorPorRangoExcesoVelocidad(CotizadorBase):
     def acepta_evento(self, evento):
-        return evento.tipo() == 'ExcesoVelocidad' and evento.porcentaje_de_velocidad() >= self._cota_exceso_velocidad_inferior and evento.porcentaje_de_velocidad() <= self._cota_exceso_velocidad_superior
+        return evento.tipo() == 'ExcesoDeVelocidad' and (
+            self._cota_exceso_velocidad_inferior <= evento.porcentaje_de_velocidad() <= self._cota_exceso_velocidad_superior)
 
     def obtener_cotizacion_evento(self, evento):
         if not self.acepta_evento(evento):
