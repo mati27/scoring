@@ -34,7 +34,7 @@ class DetectorDeExcesoDeVelocidad(object):
         self._intervalo_actual = nuevo_intervalo
 
     def _detectar_si_se_encuentra_excedido_en_velocidad(self, coordenadas):
-
+        print self._proveedor_velocidad_maxima
         velocidad = CalculadorVelocidad().obtener_velocidad_por_intervalos(self._intervalo_anterior,self._intervalo_actual )
         velocidad_maxima = self._proveedor_velocidad_maxima.velocidad_maxima(coordenadas)
         porcentaje = self._porcentaje_de_velocidad_maxima
