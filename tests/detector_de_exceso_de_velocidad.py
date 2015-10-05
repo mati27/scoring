@@ -45,8 +45,8 @@ class DetectorDeExcesoDeVelocidadTestCase(TestCase):
         proveedor_velocidad_maxima = ProveedorVelocidadMaxima.nuevo(catalogo_de_velocidades_maximas=catalogo_de_velocidades_maximas)
 
 
-        DetectorDeExcesoDeVelocidad.nuevo_con(gps=gps,proveedor_velocidad_maxima=proveedor_velocidad_maxima ,
-                                                estrategia_de_reporte_de_eventos=self, porcentaje_de_velocidad_maxima= 10, distancia_excedido=great_circle(0.1))
+        DetectorDeExcesoDeVelocidad.nuevo_con(gps=gps, estrategia_de_reporte_de_eventos=self,
+                                              proveedor_velocidad_maxima=proveedor_velocidad_maxima, porcentaje_de_velocidad_maxima= 10, distancia_excedido=great_circle(0.1))
 
         gps.activar()
 
@@ -72,8 +72,8 @@ class DetectorDeExcesoDeVelocidadTestCase(TestCase):
        catalogo_de_velocidades_maximas[zona_geografica] = Velocidad.nueva_con_km_por_h(magnitud = 94)
        proveedor_velocidad_maxima = ProveedorVelocidadMaxima.nuevo(catalogo_de_velocidades_maximas=catalogo_de_velocidades_maximas)
 
-       DetectorDeExcesoDeVelocidad.nuevo_con(gps=gps,proveedor_velocidad_maxima=proveedor_velocidad_maxima ,
-                                                estrategia_de_reporte_de_eventos=self, porcentaje_de_velocidad_maxima= 10, distancia_excedido=great_circle(0.1))
+       DetectorDeExcesoDeVelocidad.nuevo_con(gps=gps, estrategia_de_reporte_de_eventos=self,
+                                            proveedor_velocidad_maxima=proveedor_velocidad_maxima , porcentaje_de_velocidad_maxima= 10, distancia_excedido=great_circle(0.1))
 
        gps.activar()
        self.assertEquals(len(self.eventos_registrados), 0)
@@ -104,8 +104,8 @@ class DetectorDeExcesoDeVelocidadTestCase(TestCase):
         proveedor_velocidad_maxima = ProveedorVelocidadMaxima.nuevo(catalogo_de_velocidades_maximas=catalogo_de_velocidades_maximas)
 
 
-        DetectorDeExcesoDeVelocidad.nuevo_con(gps=gps,proveedor_velocidad_maxima=proveedor_velocidad_maxima ,
-                                                estrategia_de_reporte_de_eventos=self, porcentaje_de_velocidad_maxima= 10, distancia_excedido=great_circle(0.1))
+        DetectorDeExcesoDeVelocidad.nuevo_con(gps=gps, estrategia_de_reporte_de_eventos=self,
+                                              proveedor_velocidad_maxima=proveedor_velocidad_maxima ,porcentaje_de_velocidad_maxima= 10, distancia_excedido=great_circle(0.1))
 
         gps.activar()
 
@@ -133,8 +133,8 @@ class DetectorDeExcesoDeVelocidadTestCase(TestCase):
             catalogo_de_velocidades_maximas[zona_geografica] = Velocidad.nueva_con_km_por_h(magnitud = 94)
             proveedor_velocidad_maxima = ProveedorVelocidadMaxima.nuevo(catalogo_de_velocidades_maximas=catalogo_de_velocidades_maximas)
 
-            DetectorDeExcesoDeVelocidad.nuevo_con(gps=gps,proveedor_velocidad_maxima=proveedor_velocidad_maxima ,
-                                                    estrategia_de_reporte_de_eventos=self, porcentaje_de_velocidad_maxima= 10, distancia_excedido=great_circle(0.1))
+            DetectorDeExcesoDeVelocidad.nuevo_con(gps=gps, estrategia_de_reporte_de_eventos=self,
+                                                  proveedor_velocidad_maxima=proveedor_velocidad_maxima ,porcentaje_de_velocidad_maxima= 10, distancia_excedido=great_circle(0.1))
 
             gps.activar()
             self.assertEquals(len(self.eventos_registrados), 0)
