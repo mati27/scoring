@@ -7,14 +7,18 @@ from django.views.generic import View
 
 from asegurados.historial_de_eventos import HistorialDeEventos
 from calculador_de_scoring.models import PersistidorDeEventos, SerializadorPickle
-from configuracion import CONFIGURACION_DE_DETECTORES
+from calculador_de_scoring.proveedor_cotizadores_por_config import ProveedorCotizadoresPorConfig
+from configuracion import CONFIGURACION_DE_DETECTORES, CONFIGURACION_DE_COTIZADORES
+from detectores.detector_de_exceso_de_velocidad import DetectorDeExcesoDeVelocidad
 from detectores.detector_de_frenada_brusca import DetectorDeFrenadaBrusca
+from detectores.detector_de_viaje import DetectorDeViaje
 from detectores.detector_de_zona_peligrosa import DetectorDeViajeAZonaPeligrosa
 from eventos.base import RegistrarEnHistorialDeEventos
 from forms import FormularioDeDeteccionDeEventos
 from models import DeteccionDeEventos
 from geolocalizacion.gps import GPS
 from geolocalizacion.satelite import SateliteMock, SimuladorDeRecorrido, RecorridoEnArchivo
+from scoreador.scoreador import Scoreador
 
 
 class VistaPaso1(View):
@@ -79,7 +83,10 @@ class VistaPaso2(View):
         eventos = self.obtener_eventos_de(deteccion)
         tabla_de_eventos = TablaDeEventos(eventos=eventos)
 
-        return render(request, 'paso_2.html', context={'tabla_de_eventos': tabla_de_eventos})
+        scoreador = self.obtener_scoreador()
+        puntaje = scoreador.cotizar(eventos)
+
+        return render(request, 'paso_2.html', context={'tabla_de_eventos': tabla_de_eventos, 'puntaje': puntaje})
 
     def post(self, request):
         pass
@@ -94,6 +101,9 @@ class VistaPaso2(View):
 
         return eventos
 
+    def obtener_scoreador(self):
+        proveedor = ProveedorCotizadoresPorConfig(CONFIGURACION_DE_COTIZADORES)
+        return Scoreador(proveedor_cotizadores=proveedor)
 
 class Tabla(object):
     def __init__(self):
@@ -235,3 +245,25 @@ class FilaDetectorDeFrenadaBrusca(FilaDeTablaDetectores):
     def parametros(self):
         limite_de_aceleracion_en_ms2 = self._configuracion_de_detector['parametros']['limite_aceleracion'].a_ms2()
         return u'Límite de aceleración: %s m/s2' % limite_de_aceleracion_en_ms2
+
+class FilaDetectorDeViaje(FilaDeTablaDetectores):
+    @classmethod
+    def acepta(cls, configuracion_de_detector):
+        return configuracion_de_detector['tipo'] == DetectorDeViaje
+
+    def nombre(self):
+        return 'Detector de Viaje'
+
+    def parametros(self):
+        return u''
+
+class FilaDetectorDeExcesoDeVelocidad(FilaDeTablaDetectores):
+    @classmethod
+    def acepta(cls, configuracion_de_detector):
+        return configuracion_de_detector['tipo'] == DetectorDeExcesoDeVelocidad
+
+    def nombre(self):
+        return 'Detector de Exceso de Velocidad'
+
+    def parametros(self):
+        return u'Porcentaje máximo de exceso: %s' % str(self._configuracion_de_detector['parametros']['porcentaje_de_velocidad_maxima'])

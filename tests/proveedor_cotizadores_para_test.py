@@ -4,11 +4,11 @@ from cotizadores.cotizador_por_distancia_recorrida import CotizadorPorDistanciaR
 from cotizadores.cotizador_por_frenada_brusca import CotizadorPorFrenadaBrusca
 from cotizadores.cotizador_por_rango_exceso_velocidad import CotizadorPorRangoExcesoVelocidad
 from cotizadores.cotizador_por_viaje_frecuente_a_zona_peligrosa import CotizadorPorViajeFrecuenteAZonaPeligrosa
-from scoreador.proveedor_cotizadores import ProveedorCotizadores
+from scoreador.proveedor_cotizadores import ProveedorCotizadoresEventos
 
 
 
-class ProveedorCotizadoresParaTest(ProveedorCotizadores):
+class ProveedorCotizadoresParaTest(ProveedorCotizadoresEventos):
     def obtener_cotizadores_eventos(self):
         ret = [
             CotizadorPorFrenadaBrusca.con_penalizacion(40),

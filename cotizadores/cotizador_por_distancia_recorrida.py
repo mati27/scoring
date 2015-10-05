@@ -19,7 +19,6 @@ class CotizadorPorDistanciaRecorrida(CotizadorBase):
 
     def obtener_penalizacion(self):
         unidades_penalizables = int(self._distancia_acumulada / self._distancia_para_penalizacion)
-        distancia_penalizada = 0
         if unidades_penalizables > 0:
             distancia_penalizada = unidades_penalizables * self._distancia_para_penalizacion.kilometers
             resto = self._distancia_acumulada.kilometers - distancia_penalizada
