@@ -43,6 +43,7 @@ class PersistidorDeEventos(object):
         self._serializador = serializador
 
     def persistir(self, deteccion, evento):
+
         EventoDetectado.nuevo(deteccion=deteccion, evento_serializado=self._serializador.serializar(evento))
 
 

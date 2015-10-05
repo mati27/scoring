@@ -9,4 +9,5 @@ class DetectorDeEventos(object):
         raise NotImplementedError('responsabilidad de la subclase')
 
     def reportar_evento(self, evento):
+
         self._estrategia_de_reporte_de_eventos.reportar_evento(evento)

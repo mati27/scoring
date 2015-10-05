@@ -1,5 +1,4 @@
-from geopy.distance import great_circle
-
+from geopy.distance import Distance
 from detectores.base import DetectorDeEventos
 from eventos.viaje import EventoDeViaje
 from fisica.calculador_dinstancias_por_coordenadas import CalculadorDistanciasPorCoordenadas
@@ -53,14 +52,14 @@ class EstadoDeViaje(object):
 class EnViaje(EstadoDeViaje):
     def __init__(self, detector):
         self.detector = detector
-        self.distancia = great_circle()
+        self.distancia = Distance(0)
 
     def agregar_distancia_viaje(self, intervalo1, intervalo2):
         distancia = CalculadorDistanciasPorCoordenadas().obtener_distancia(intervalo1.coordenadas(),
                                                                            intervalo2.coordenadas())
         self.distancia = self.distancia + distancia
 
-        if distancia == great_circle():
+        if distancia == Distance(0):
             self.detector.reportar_nuevo_evento_de_viaje(self.distancia)
             self.detector.cambiar_a_estado(Detenido)
 
@@ -73,6 +72,6 @@ class Detenido(EstadoDeViaje):
     def agregar_distancia_viaje(self, intervalo1, intervalo2):
         distancia = CalculadorDistanciasPorCoordenadas().obtener_distancia(intervalo1.coordenadas(),
                                                                            intervalo2.coordenadas())
-        if distancia > great_circle():
+        if distancia > Distance(0):
             self.detector.cambiar_a_estado(EnViaje)
             self.detector.estado().agregar_distancia_viaje(intervalo1, intervalo2)

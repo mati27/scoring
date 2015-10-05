@@ -21,6 +21,7 @@ class DetectorDeViajeAZonaPeligrosa(DetectorDeEventos):
     def _detectar_si_se_encuentra_en_zona_peligrosa_y_reportar(self, coordenadas):
         for zona_peligrosa in self._zonas_peligrosas:
             if zona_peligrosa.esta_dentro(coordenadas):
+
                 self._estado.se_encuentra_en(zona_peligrosa=zona_peligrosa)
                 return
 

@@ -190,7 +190,7 @@ class FilaDeEventoDeExcesoDeVelocidad(FilaDeTablaDeEventos):
         return u'Evento de exceso de velocidad'
 
     def descripcion(self):
-        return u'Velocidad excedida en un %s %%' % str(self._evento.porcentaje_de_velocidad())
+        return u'Velocidad excedida en un %s %%' % str(self._evento.porcentaje_excedido())
 
 class FilaDeEventoDeViaje(FilaDeTablaDeEventos):
     @classmethod
@@ -201,7 +201,7 @@ class FilaDeEventoDeViaje(FilaDeTablaDeEventos):
         return u'Evento de viaje'
 
     def descripcion(self):
-        return u''
+       return u'Se registro un viaje con %s ' % str(self._evento.distancia())
 
 
 class TablaDeDetectores(Tabla):

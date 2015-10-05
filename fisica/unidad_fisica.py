@@ -13,3 +13,7 @@ class UnidadFisica:
     def __add__(self, other):
        self.magnitud + other.magnitud
        return self
+
+    def __div__(self, other):
+       self.magnitud/other.magnitud
+       return self
