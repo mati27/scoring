@@ -5,6 +5,3 @@ class CotizadorBase:
 
     def obtener_cotizacion_evento(self, evento):
         raise NotImplementedError('responsabilidad de la subclase')
-
-    def tipo_cotizador(self):
-        raise NotImplementedError('responsabilidad de la subclase')
