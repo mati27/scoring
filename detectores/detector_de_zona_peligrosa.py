@@ -1,19 +1,19 @@
+from detectores.base import DetectorDeEventos
 from eventos.zona_peligrosa import EventoDeViajeAZonaPeligrosa
 
 
-class DetectorDeViajeAZonaPeligrosa(object):
+class DetectorDeViajeAZonaPeligrosa(DetectorDeEventos):
     @classmethod
     def nuevo_con(cls, gps, zonas_peligrosas, estrategia_de_reporte_de_eventos):
         return cls(gps=gps, zonas_peligrosas=zonas_peligrosas,
                    estrategia_de_reporte_de_eventos=estrategia_de_reporte_de_eventos)
 
     def __init__(self, gps, zonas_peligrosas, estrategia_de_reporte_de_eventos):
-        self._gps = gps
         self._zonas_peligrosas = zonas_peligrosas
-        self._estrategia_de_reporte_de_eventos = estrategia_de_reporte_de_eventos
         self._estado = FueraDeZonaPeligrosa.para(detector=self)
 
-        self._gps.agregar_observador(self)
+        super(DetectorDeViajeAZonaPeligrosa, self).__init__(gps=gps,
+                                                            estrategia_de_reporte_de_eventos=estrategia_de_reporte_de_eventos)
 
     def ubicacion_obtenida(self, intervalo):
         self._detectar_si_se_encuentra_en_zona_peligrosa_y_reportar(intervalo.coordenadas())
@@ -28,7 +28,7 @@ class DetectorDeViajeAZonaPeligrosa(object):
 
     def reportar_nuevo_evento_de_viaje_a(self, zona_peligrosa):
         evento = EventoDeViajeAZonaPeligrosa.nuevo(zona=zona_peligrosa)
-        self._estrategia_de_reporte_de_eventos.reportar_evento(evento)
+        self.reportar_evento(evento)
 
     def cambiar_a_estado(self, estado):
         self._estado = estado.para(detector=self)

@@ -1,20 +1,19 @@
 #http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3019610/
 #http://nujournal.net/HighAccuracySpeed.pdf
-
+from detectores.base import DetectorDeEventos
 
 from eventos.frenada_brusca import EventoDeFrenadaBrusca
 from fisica.calculador_aceleracion import CalculadorAceleracion
 from fisica.calculador_velocidad_por_intervalos import CalculadorVelocidad
 
-class DetectorDeFrenadaBrusca:
+
+class DetectorDeFrenadaBrusca(DetectorDeEventos):
     @classmethod
     def nuevo_con(cls, gps, limite_aceleracion, estrategia_de_reporte_de_eventos):
         return cls(gps=gps, limite_aceleracion=limite_aceleracion,
                    estrategia_de_reporte_de_eventos=estrategia_de_reporte_de_eventos)
 
     def __init__(self, gps, limite_aceleracion, estrategia_de_reporte_de_eventos):
-        self._estrategia_de_reporte_de_eventos = estrategia_de_reporte_de_eventos
-        self._gps = gps
         self._limite_aceleracion = limite_aceleracion
         self._aceleracion = None
         self._velocidad_actual = None
@@ -22,7 +21,9 @@ class DetectorDeFrenadaBrusca:
         self._intervalo_actual = None
         self._intervalo_anterior = None
         self._estado_aceleracion = EnAceleracionNormal.para(self)
-        self._gps.agregar_observador(self)
+
+        super(DetectorDeFrenadaBrusca, self).__init__(gps=gps,
+                                                      estrategia_de_reporte_de_eventos=estrategia_de_reporte_de_eventos)
 
     def ubicacion_obtenida(self, intervalo):
 
@@ -37,20 +38,21 @@ class DetectorDeFrenadaBrusca:
 
     def actualizar_velocidades(self):
         if self._intervalo_anterior is not None:
-            nuevaVelocidad = CalculadorVelocidad().obtener_velocidad_por_intervalos(self._intervalo_anterior,self._intervalo_actual )
+            nueva_velocidad = CalculadorVelocidad().obtener_velocidad_por_intervalos(self._intervalo_anterior,
+                                                                                     self._intervalo_actual)
             self._velocidad_anterior = self._velocidad_actual
-            self._velocidad_actual = nuevaVelocidad
+            self._velocidad_actual = nueva_velocidad
             print ("Velocidad actual ", self._velocidad_actual.a_kilometros_por_hora())
 
     def actualizar_aceleracion(self):
         if self._velocidad_anterior is not None:
-          self._aceleracion = CalculadorAceleracion().obtener_aceleracion_por_delta_velocidad(self._velocidad_anterior,
-                                                                                             self._intervalo_anterior.timestamp(),
-                                                                                             self._velocidad_actual,
+            self._aceleracion = CalculadorAceleracion().obtener_aceleracion_por_delta_velocidad(
+                self._velocidad_anterior,
+                self._intervalo_anterior.timestamp(),
+                self._velocidad_actual,
 
-
-                                                                                             self._intervalo_actual.timestamp())
-          print (self._aceleracion.a_gs())
+                self._intervalo_actual.timestamp())
+            print (self._aceleracion.a_gs())
 
     def verificar_aceleracion(self):
         if self._aceleracion is not None:
@@ -61,7 +63,7 @@ class DetectorDeFrenadaBrusca:
 
     def reportar_nuevo_evento_de_frenada_brusca(self):
         evento = EventoDeFrenadaBrusca.nuevo()
-        self._estrategia_de_reporte_de_eventos.reportar_evento(evento)
+        self.reportar_evento(evento)
 
     def cambiar_a_estado_aceleracion_normal(self):
             self._estado_aceleracion = EnAceleracionNormal.para(self)
@@ -100,7 +102,3 @@ class EnAceleracionBrusca(EstadoDeAceleracion):
 
     def en_aceleracion_normal(self):
         self.detector.cambiar_a_estado_aceleracion_normal()
-
-
-
-
